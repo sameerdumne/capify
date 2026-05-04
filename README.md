@@ -70,6 +70,7 @@ Create `.env.local`:
 ```
 NEXT_PUBLIC_SUPABASE_URL=https://your-project.supabase.co
 NEXT_PUBLIC_SUPABASE_ANON_KEY=your-anon-key
+NEXT_PUBLIC_SITE_URL=https://your-netlify-site.netlify.app
 ```
 
 For Netlify, add the same variables in **Site configuration → Environment variables**.
@@ -87,6 +88,17 @@ Functions directory: netlify/functions
 ```
 
 The `/api/random-song` route is proxied to `/.netlify/functions/random-song`, so existing frontend calls keep working after deployment.
+
+Supabase auth URL settings:
+
+```
+Site URL: https://your-netlify-site.netlify.app
+Redirect URLs:
+https://your-netlify-site.netlify.app/auth/callback
+http://localhost:3000/auth/callback
+```
+
+Replace `your-netlify-site.netlify.app` with your actual Netlify domain or custom domain.
 
 ## 📚 Scripts
 
