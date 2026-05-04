@@ -1,8 +1,9 @@
 "use client"
 
-import { useEffect, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { createClient } from '@supabase/supabase-js'
 import { useRouter } from 'next/navigation'
+import Link from 'next/link'
 import SongCard from '../../components/SongCard'
 import type { Song } from '../../types'
 
@@ -24,10 +25,10 @@ export default function HistoryPage() {
   const [error, setError] = useState<string | null>(null)
   const router = useRouter()
 
-  const supabase = createClient(
+  const supabase = useMemo(() => createClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL || '',
     process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || ''
-  )
+  ), [])
 
   useEffect(() => {
     const fetchHistory = async () => {
@@ -61,6 +62,7 @@ export default function HistoryPage() {
           `)
           .eq('user_id', currentUser.id)
           .order('played_at', { ascending: false })
+          .limit(100)
 
         if (fetchError) {
           setError(fetchError.message)
@@ -153,6 +155,12 @@ export default function HistoryPage() {
           <div className="text-center py-12">
             <p className="text-slate-400 text-lg">Your listening history will appear here</p>
             <p className="text-slate-500 mt-2">Start discovering songs to build your history</p>
+            <Link
+              href="/discover"
+              className="inline-block mt-6 px-5 py-3 rounded-full bg-neon text-black font-semibold"
+            >
+              Discover Songs
+            </Link>
           </div>
         )}
 
@@ -160,7 +168,7 @@ export default function HistoryPage() {
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {history.map((entry) => (
               <div key={entry.id} className="relative">
-                <SongCard song={entry.song} />
+                <SongCard song={entry.song} logPlay={false} />
                 <div className="text-xs text-slate-400 mt-2 text-center">
                   Played {new Date(entry.played_at).toLocaleDateString()} at{' '}
                   {new Date(entry.played_at).toLocaleTimeString()}

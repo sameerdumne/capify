@@ -7,20 +7,21 @@ import { logSongPlay } from '../utils/history'
 
 interface Props {
   song: Song
+  logPlay?: boolean
 }
 
-export default function SongCard({ song }: Props) {
+export default function SongCard({ song, logPlay = true }: Props) {
   const [liked, setLiked] = useState(false)
   const [hasLogged, setHasLogged] = useState(false)
 
   // Log song play when component mounts
   useEffect(() => {
-    if (!hasLogged) {
+    if (logPlay && !hasLogged) {
       logSongPlay(song.id).then(() => {
         setHasLogged(true)
       })
     }
-  }, [song.id, hasLogged])
+  }, [song.id, hasLogged, logPlay])
 
   return (
     <article className="glass p-4 rounded-2xl shadow-md">

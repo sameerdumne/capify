@@ -45,3 +45,21 @@ create table if not exists song_history (
 -- Create index for faster queries
 create index if not exists idx_song_history_user_id on song_history(user_id);
 create index if not exists idx_song_history_played_at on song_history(played_at);
+
+-- Keep listening history scoped to the signed-in account
+alter table song_history enable row level security;
+
+drop policy if exists "Users can view their own song history" on song_history;
+create policy "Users can view their own song history"
+  on song_history for select
+  using (auth.uid() = user_id);
+
+drop policy if exists "Users can add their own song history" on song_history;
+create policy "Users can add their own song history"
+  on song_history for insert
+  with check (auth.uid() = user_id);
+
+drop policy if exists "Users can clear their own song history" on song_history;
+create policy "Users can clear their own song history"
+  on song_history for delete
+  using (auth.uid() = user_id);
