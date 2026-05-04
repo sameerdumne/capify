@@ -1,4 +1,5 @@
 import Link from 'next/link'
+import MoodHistoryPieChart from '../components/MoodHistoryPieChart'
 import RandomSongWidget from '../components/RandomSongWidget'
 
 export default function Home() {
@@ -14,6 +15,8 @@ export default function Home() {
             <Link href="/discover" className="inline-block px-6 py-3 rounded-full bg-gradient-to-r from-neon to-accent text-black font-semibold">Discover Songs</Link>
           </div>
         </div>
+
+        <MoodHistoryPieChart />
 
         {/* Random Song Section */}
         <div className="glass rounded-3xl p-10">
