@@ -2,7 +2,6 @@
 
 import { useState } from 'react'
 import { createClient } from '@supabase/supabase-js'
-import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 
 export default function SignupPage() {
@@ -12,7 +11,6 @@ export default function SignupPage() {
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const [success, setSuccess] = useState(false)
-  const router = useRouter()
 
   const supabase = createClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL || '',
@@ -56,11 +54,7 @@ export default function SignupPage() {
       setEmail('')
       setPassword('')
       setConfirmPassword('')
-
-      // Redirect after 2 seconds
-      setTimeout(() => {
-        router.push('/')
-      }, 2000)
+      setSuccess(true)
     } catch {
       setError('An unexpected error occurred')
     } finally {
@@ -83,7 +77,7 @@ export default function SignupPage() {
 
           {success && (
             <div className="mb-4 p-3 rounded-lg bg-green-500/20 border border-green-500/50 text-green-300 text-sm">
-              ✅ Account created! Redirecting to home...
+              Account created. Check your email to confirm your account, then log in.
             </div>
           )}
 

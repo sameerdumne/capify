@@ -21,23 +21,42 @@ function AuthCallbackContent() {
 
       const code = searchParams.get('code')
 
-      if (!code) {
-        setMessage('Authentication link is missing a valid code. Please request a new sign-in link.')
-        return
-      }
-      
       const supabase = createClient(
         process.env.NEXT_PUBLIC_SUPABASE_URL || '',
         process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || ''
       )
 
-      const { error } = await supabase.auth.exchangeCodeForSession(code)
-      
-      if (!error) {
-        router.push('/')
-      } else {
-        setMessage(error.message)
+      if (code) {
+        const { error } = await supabase.auth.exchangeCodeForSession(code)
+        
+        if (!error) {
+          router.push('/')
+        } else {
+          setMessage(error.message)
+        }
+
+        return
       }
+
+      const accessToken = hashParams.get('access_token')
+      const refreshToken = hashParams.get('refresh_token')
+      
+      if (accessToken && refreshToken) {
+        const { error } = await supabase.auth.setSession({
+          access_token: accessToken,
+          refresh_token: refreshToken
+        })
+
+        if (!error) {
+          router.push('/')
+        } else {
+          setMessage(error.message)
+        }
+
+        return
+      }
+
+      setMessage('Authentication link is missing a valid session. Please request a new sign-in link.')
     }
 
     handleCallback()
