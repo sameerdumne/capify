@@ -12,6 +12,12 @@ interface HistoryEntry {
   played_at: string
 }
 
+interface SongHistoryRow {
+  id: string
+  song: Song | Song[] | null
+  played_at: string
+}
+
 export default function HistoryPage() {
   const [history, setHistory] = useState<HistoryEntry[]>([])
   const [loading, setLoading] = useState(true)
@@ -62,11 +68,19 @@ export default function HistoryPage() {
         }
 
         // Transform data
-        const transformedHistory = data.map((entry: any) => ({
-          id: entry.id,
-          song: entry.song,
-          played_at: entry.played_at
-        }))
+        const transformedHistory = (data as SongHistoryRow[]).flatMap((entry) => {
+          const song = Array.isArray(entry.song) ? entry.song[0] : entry.song
+
+          if (!song) {
+            return []
+          }
+
+          return [{
+            id: entry.id,
+            song,
+            played_at: entry.played_at
+          }]
+        })
 
         setHistory(transformedHistory)
       } catch (err) {

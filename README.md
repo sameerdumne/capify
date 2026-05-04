@@ -72,6 +72,22 @@ NEXT_PUBLIC_SUPABASE_URL=https://your-project.supabase.co
 NEXT_PUBLIC_SUPABASE_ANON_KEY=your-anon-key
 ```
 
+For Netlify, add the same variables in **Site configuration → Environment variables**.
+
+## 🚢 Deploy to Netlify
+
+This repo includes `netlify.toml` and a Netlify Function for `/api/random-song`.
+
+Netlify build settings:
+
+```
+Build command: npm run build
+Publish directory: .next
+Functions directory: netlify/functions
+```
+
+The `/api/random-song` route is proxied to `/.netlify/functions/random-song`, so existing frontend calls keep working after deployment.
+
 ## 📚 Scripts
 
 ```bash
@@ -117,7 +133,7 @@ npm run typecheck # Run TypeScript typecheck
 - **Styling**: Tailwind CSS 3
 - **Backend**: Supabase (PostgreSQL, Auth)
 - **Libraries**: Framer Motion, Lucide, Sonner
-- **Deployment**: Vercel
+- **Deployment**: Netlify
 
 ## 📖 Learning Resources
 
