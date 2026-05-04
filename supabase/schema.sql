@@ -33,3 +33,15 @@ create table if not exists roles (
   role text not null,
   created_at timestamptz default now()
 );
+
+-- Recently played songs history
+create table if not exists song_history (
+  id uuid primary key default gen_random_uuid(),
+  user_id uuid not null references auth.users(id) on delete cascade,
+  song_id uuid not null references songs(id) on delete cascade,
+  played_at timestamptz default now()
+);
+
+-- Create index for faster queries
+create index if not exists idx_song_history_user_id on song_history(user_id);
+create index if not exists idx_song_history_played_at on song_history(played_at);

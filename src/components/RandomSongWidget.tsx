@@ -49,7 +49,7 @@ export default function RandomSongWidget() {
           <SongCard song={song} />
         </div>
       ) : !loading && (
-        <div className="text-slate-400 italic">Click "Random Song" to discover something new!</div>
+        <div className="text-slate-400 italic">Click &quot;Random Song&quot; to discover something new!</div>
       )}
     </div>
   )

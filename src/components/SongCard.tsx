@@ -2,7 +2,8 @@
 
 import YouTubeEmbed from './YouTubeEmbed'
 import { Song } from '../types'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
+import { logSongPlay } from '../utils/history'
 
 interface Props {
   song: Song
@@ -10,6 +11,16 @@ interface Props {
 
 export default function SongCard({ song }: Props) {
   const [liked, setLiked] = useState(false)
+  const [hasLogged, setHasLogged] = useState(false)
+
+  // Log song play when component mounts
+  useEffect(() => {
+    if (!hasLogged) {
+      logSongPlay(song.id).then(() => {
+        setHasLogged(true)
+      })
+    }
+  }, [song.id, hasLogged])
 
   return (
     <article className="glass p-4 rounded-2xl shadow-md">
