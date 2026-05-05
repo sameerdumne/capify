@@ -18,7 +18,25 @@ export const metadata = {
 
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
+      <head>
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              (function () {
+                try {
+                  var storedTheme = localStorage.getItem('capify-theme');
+                  var theme = storedTheme || (window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark');
+                  document.documentElement.dataset.theme = theme;
+                  document.documentElement.style.colorScheme = theme;
+                } catch (error) {
+                  document.documentElement.dataset.theme = 'dark';
+                }
+              })();
+            `
+          }}
+        />
+      </head>
       <body>
         <Navbar />
         <main className="min-h-screen">

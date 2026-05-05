@@ -6,16 +6,72 @@
   color-scheme: dark;
 }
 
+:root[data-theme='light'] {
+  color-scheme: light;
+}
+
 html, body, #__next {
   height: 100%;
 }
 
 body {
-  @apply bg-[#0b0f14] text-slate-100 antialiased;
+  @apply bg-[#0b0f14] text-slate-100 antialiased transition-colors duration-300;
   font-family: ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
 }
 
 .glass {
   background: rgba(255,255,255,0.03);
   backdrop-filter: blur(8px) saturate(120%);
+}
+
+:root[data-theme='light'] body {
+  background: #f8fafc;
+  color: #0f172a;
+}
+
+:root[data-theme='light'] .glass {
+  background: rgba(255,255,255,0.78);
+  border: 1px solid rgba(15,23,42,0.08);
+  box-shadow: 0 18px 45px rgba(15,23,42,0.08);
+}
+
+:root[data-theme='light'] .bg-slate-900\/70 {
+  background-color: rgba(255,255,255,0.82);
+}
+
+:root[data-theme='light'] .border-white\/10 {
+  border-color: rgba(15,23,42,0.12);
+}
+
+:root[data-theme='light'] .bg-white\/5,
+:root[data-theme='light'] .bg-white\/10 {
+  background-color: rgba(15,23,42,0.06);
+}
+
+:root[data-theme='light'] .hover\:bg-white\/15:hover {
+  background-color: rgba(15,23,42,0.1);
+}
+
+:root[data-theme='light'] .text-slate-100,
+:root[data-theme='light'] .text-white {
+  color: #0f172a;
+}
+
+:root[data-theme='light'] .text-slate-300,
+:root[data-theme='light'] .text-slate-400,
+:root[data-theme='light'] .text-slate-500 {
+  color: #475569;
+}
+
+:root[data-theme='light'] .hover\:text-white:hover {
+  color: #0f172a;
+}
+
+:root[data-theme='light'] input {
+  background-color: rgba(255,255,255,0.9);
+  color: #0f172a;
+}
+
+:root[data-theme='light'] input::placeholder {
+  color: #64748b;
 }

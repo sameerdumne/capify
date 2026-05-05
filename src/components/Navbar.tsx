@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react'
 import Link from 'next/link'
 import { createClient } from '@supabase/supabase-js'
 import { useRouter } from 'next/navigation'
+import ThemeToggle from './ThemeToggle'
 
 export default function Navbar() {
   const [user, setUser] = useState<{ email?: string } | null>(null)
@@ -107,6 +108,8 @@ export default function Navbar() {
               </Link>
             </div>
           )}
+
+          <ThemeToggle />
         </div>
       </div>
     </nav>
